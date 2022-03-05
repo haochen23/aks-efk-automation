@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-ingress
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/rewrite-target: /$2
+    ingress.kubernetes.io/backend-protocol: "HTTPS"
+  labels:
+    name: dashboard-ingress
+spec:
+  tls:
+    - secretName: tls-secret # NON-EXISTENT
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /dashboard(/|$)(.*)
+            backend:
+              service:
+                name: kubernetes-dashboard
+                port:
+                  number: 80
