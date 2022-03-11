@@ -44,8 +44,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   default_node_pool {
     name       = "default"
-    node_count = 3
+    node_count = 2
     vm_size    = "Standard_D2_v2"
+    type                = "VirtualMachineScaleSets"
+    enable_auto_scaling = true
+    min_count           = 2
+    max_count           = 4
   }
 
   identity {
@@ -54,5 +58,12 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   tags = {
     Environment = var.env_tag
+  }
+
+  lifecycle {
+    ignore_changes = [
+      default_node_pool[0].node_count
+      
+    ]
   }
 }
