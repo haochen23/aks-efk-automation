@@ -1,0 +1,5 @@
+apiVersion: v2
+name: exposeTelmetry
+description: A Helm chart for exposing Istio demo telemetry with self-signed certificate
+type: application
+version: 0.1.0
