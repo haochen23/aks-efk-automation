@@ -15,16 +15,16 @@ spec:
         mode: SIMPLE
         credentialName: telemetry-gw-cert
       hosts:
-        - "kubernetes-dashboard.52.191.219.240.nip.io" # use the IP if you don't have a domain name
+        - "dashboard.52.191.219.240.nip.io" # use the IP if you don't have a domain name
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: kubernetes-dashboard-vs
+  name: dashboard-vs
   namespace: kubernetes-dashboard
 spec:
   hosts:
-    - "kubernetes-dashboard.52.191.219.240.nip.io"
+    - "dashboard.52.191.219.240.nip.io"
   gateways:
     - dashboard-gateway
   http:
@@ -36,16 +36,16 @@ spec:
       # match:
       #   - port: 443
       #     sniHosts:
-      #       - kubernetes-dashboard.52.191.219.240.nip.io
+      #       - dashboard.52.191.219.240.nip.io
 
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: kubernetes-dashboard
+  name: dashboard
   namespace: kubernetes-dashboard
 spec:
-  host: kubernetes-dashboard
+  host: dashboard
   trafficPolicy:
     tls:
       mode: DISABLE
