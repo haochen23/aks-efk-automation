@@ -30,7 +30,7 @@ spec:
   http:
     - route:
         - destination:
-            host: argocd
+            host: argocd-server
             port:
               number: 80
       # match:
