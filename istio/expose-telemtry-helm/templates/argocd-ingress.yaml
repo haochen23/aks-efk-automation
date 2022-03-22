@@ -1,0 +1,51 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: argocd-gateway
+  namespace: argocd
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https-argocd
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: telemetry-gw-cert
+      hosts:
+        - argocd.{{ .Values.global.ingressDomain }} # use the IP if you don't have a domain name
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argocd-vs
+  namespace: argocd
+spec:
+  hosts:
+    - argocd.{{ .Values.global.ingressDomain }}
+  gateways:
+    - argocd-gateway
+  http:
+    - route:
+        - destination:
+            host: argocd-server
+            port:
+              number: 80
+      # match:
+      #   - port: 443
+      #     sniHosts:
+      #       - dashboard.52.191.219.240.nip.io
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: argocd
+  namespace: argocd
+spec:
+  host: argocd
+  trafficPolicy:
+    tls:
+      mode: DISABLE
