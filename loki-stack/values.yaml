@@ -1,0 +1,23 @@
+loki:
+  enabled: true
+  replicas: 2
+  persistence:
+    enabled: true
+    storageClassName: azurefile
+    size: 5Gi
+
+promtail:
+  enabled: true
+  alertmanager:
+    enabled: true
+
+grafana:
+  enabled: true
+  sidecar:
+    datasources:
+      enabled: true
+  image:
+    tag: 8.3.5
+
+prometheus:
+  enabled: true
