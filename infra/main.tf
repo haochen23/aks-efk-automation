@@ -1,8 +1,7 @@
 terraform {
   required_providers {
     azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "2.96.0"
+      source = "hashicorp/azurerm"
     }
   }
 }
@@ -43,9 +42,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
   dns_prefix          = "aksefkerictest"
 
   default_node_pool {
-    name       = "default"
-    node_count = 2
-    vm_size    = "Standard_D2_v2"
+    name                = "default"
+    node_count          = 2
+    vm_size             = "Standard_D2s_v5"
     type                = "VirtualMachineScaleSets"
     enable_auto_scaling = true
     min_count           = 2
@@ -63,7 +62,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
   lifecycle {
     ignore_changes = [
       default_node_pool[0].node_count
-      
+
     ]
   }
 }
